@@ -16,12 +16,12 @@ const compression = require('compression');
 const logger = require('./logger.js');
 const db = require('./database.js');
 
+const webdir = path.join(__dirname + '/../www/');
+
 /**
  * Public functions
  */
 exports.init = function(express, app) {
-	const webdir = express.static(path.join(__dirname + '/../www/'));
-
 	app.use(session({secret: 'work hard', resave: true, saveUninitialized: false}));
 	app.use(bodyparser.urlencoded({extended: false}));
 	app.use(logRequest);
@@ -30,13 +30,11 @@ exports.init = function(express, app) {
 	}));
 	app.use(minify({uglifyJsModule: uglifyEs}));
 
-	app.use('/ressources', express.static(webdir + '/ressources/css'));
-	app.use('/ressources', express.static(webdir + '/ressources/scripts'));
-	app.use('/ressources', express.static(webdir + '/ressources/scripts/bundles'));
+	app.use('/ressources', express.static(path.join(webdir + '/ressources/css')));
+	app.use('/ressources', express.static(path.join(webdir + '/ressources/scripts')));
+	app.use('/ressources', express.static(path.join(webdir + '/ressources/scripts/bundles')));
 
-	console.log('webdir: ' + webdir);
-
-	app.use('/ressources', express.static(webdir + '/pages/julien/Julien-Daviaud-Demaille_files'));
+	app.use('/', express.static(path.join(webdir + '/pages/julien/Julien-Daviaud-Demaille_files')));
 
 	initRoutes(app);
 
