@@ -4,8 +4,7 @@ module.exports = {
 	mode: 'production',
 	entry: {
 		index: './www/pages/index.js',
-		login: './www/pages/login/login.js',
-		julien: './www/pages/julien/Julien-Daviaud-Demaille.html'
+		login: './www/pages/login/login.js'
 	},
 	output: {
 		filename: '[name]-bundle.js',
