@@ -34,6 +34,8 @@ exports.init = function(express, app) {
 	app.use('/ressources', express.static(webdir + '/ressources/scripts'));
 	app.use('/ressources', express.static(webdir + '/ressources/scripts/bundles'));
 
+	console.log('webdir: ' + webdir);
+
 	app.use('/ressources', express.static(webdir + '/pages/julien/Julien-Daviaud-Demaille_files'));
 
 	initRoutes(app);
