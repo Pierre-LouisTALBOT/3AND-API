@@ -23,5 +23,5 @@ expressRoutes.init(express, app);
  * Start listen with the server
  */
 
-const port = 80;
+const port = 8080;
 server.listen(port, () => logger.log('info', 'Express server listening on port ' + port + ', in ' + app.get('env') + ' mode'));
