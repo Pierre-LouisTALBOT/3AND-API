@@ -32,19 +32,19 @@
     "react-dom": "^16.4.1",
     "uglify-es": "^3.3.9",
     "uuid": "^3.3.2",
-    "winston": "^3.0.0"
-  },
-  "devDependencies": {
+    "winston": "^3.0.0",
+    "webpack": "^4.16.2",
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.5",
     "babel-preset-latest-node": "^1.0.0",
     "babel-preset-react": "^6.24.1",
+    "webpack-command": "^0.4.1"
+  },
+  "devDependencies": {
     "eslint": "^5.2.0",
     "eslint-plugin-react": "^7.10.0",
     "nodemon": "^1.18.1",
-    "npm-check-updates": "^2.14.2",
-    "webpack": "^4.16.2",
-    "webpack-command": "^0.4.1"
+    "npm-check-updates": "^2.14.2"
   },
   "nodemonConfig": {
     "verbose": false,
