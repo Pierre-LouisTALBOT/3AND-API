@@ -23,5 +23,5 @@ expressRoutes.init(express, app);
  * Start listen with the server
  */
 
-const port = 10443;
+const port = process.env.PORT || 3000;
 server.listen(port, () => logger.log('info', 'Express server listening on port ' + port + ', in ' + app.get('env') + ' mode'));
