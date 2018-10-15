@@ -16,12 +16,12 @@ const compression = require('compression');
 const logger = require('./logger.js');
 const db = require('./database.js');
 
-const webdir = express.static(path.join(__dirname + '/../www/'));
-
 /**
  * Public functions
  */
 exports.init = function(express, app) {
+	const webdir = express.static(path.join(__dirname + '/../www/'));
+
 	app.use(session({secret: 'work hard', resave: true, saveUninitialized: false}));
 	app.use(bodyparser.urlencoded({extended: false}));
 	app.use(logRequest);
