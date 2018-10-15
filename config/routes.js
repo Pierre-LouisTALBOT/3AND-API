@@ -16,7 +16,7 @@ const compression = require('compression');
 const logger = require('./logger.js');
 const db = require('./database.js');
 
-const webdir = path.resolve(__dirname + '/../www/');
+const webdir = express.static(path.join(__dirname + '/../www/'));
 
 /**
  * Public functions
