@@ -147,7 +147,7 @@ function initRoutes(app) {
 
 		db.query(query, null, (err, objs) => {
 			if (err) {
-				next(err);
+				next(req, res, err);
 				return;
 			}
 			res.json(objs);
