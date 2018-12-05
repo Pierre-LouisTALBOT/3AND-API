@@ -136,6 +136,24 @@ function initRoutes(app) {
 		res.sendFile(path.resolve(__dirname + '/index.html'));
 	});
 
+	app.get('/init', function(req, res) {
+		const createCoffees = 'CREATE TABLE coffees (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, type TEXT NOT NULL, country TEXT NOT NULL, comments TEXT NOT NULL, rating DOUBLE NOT NULL DEFAULT(0.0));'
+		const createShops = 'CREATE TABLE shops (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, latitude DOUBLE NOT NULL DEFAULT(0.0), longitude DOUBLE NOT NULL DEFAULT(0.0));'
+		const query = createCoffees + createShops;
+
+		logger.log('Query', {
+			query
+		});
+
+		db.query(query, null, (err, objs) => {
+			if (err) {
+				next(err);
+				return;
+			}
+			res.json(objs);
+		});
+	});
+
 	// Get all coffees
 	app.get('/coffee', function(req, res) {
 		db.select('SELECT * FROM coffees', (err, objs) => {
