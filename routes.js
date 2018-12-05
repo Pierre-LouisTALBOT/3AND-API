@@ -3,8 +3,8 @@
  */
 
 /**
-  * External Module dependencies.
-  */
+ * External Module dependencies.
+ */
 
 const uuid = require('uuid/v4');
 const path = require('path');
@@ -13,28 +13,30 @@ const bodyparser = require('body-parser');
 const minify = require('express-minify');
 const uglifyEs = require('uglify-es');
 const compression = require('compression');
+const fs = require('fs');
+
 const logger = require('./logger.js');
 const db = require('./database.js');
-
-const webdir = path.join(__dirname + '/../www/');
 
 /**
  * Public functions
  */
 exports.init = function(express, app) {
-	app.use(session({secret: 'work hard', resave: true, saveUninitialized: false}));
-	app.use(bodyparser.urlencoded({extended: false}));
+	app.use(session({
+		secret: 'work hard',
+		resave: true,
+		saveUninitialized: false
+	}));
+	app.use(bodyparser.urlencoded({
+		extended: false
+	}));
 	app.use(logRequest);
 	app.use(compression({
 		threshold: '50kb' // only compress if size is above this threshold
 	}));
-	app.use(minify({uglifyJsModule: uglifyEs}));
-
-	app.use('/ressources', express.static(path.join(webdir + '/ressources/css')));
-	app.use('/ressources', express.static(path.join(webdir + '/ressources/scripts')));
-	app.use('/ressources', express.static(path.join(webdir + '/ressources/scripts/bundles')));
-
-	app.use('/', express.static(path.join(webdir + '/pages/julien/Julien-Daviaud-Demaille_files')));
+	app.use(minify({
+		uglifyJsModule: uglifyEs
+	}));
 
 	initRoutes(app);
 
@@ -47,7 +49,6 @@ exports.init = function(express, app) {
  */
 
 function logRequest(req, res, next) {
-	// TODO: For express metrics, see https://www.npmjs.com/package/express-metrics
 	const requestStartTime = new Date();
 	req.requestId = uuid().substring(0, 8);
 	logger.log('info', 'Called url', getInfos(req));
@@ -90,7 +91,10 @@ function notFoundHandler(req, res, next) {
 	if (res.headersSent) {
 		return next();
 	}
-	res.status(404).sendFile(webdir + '/pages/error/404.html');
+	res.status(404).json({
+		'code': 404,
+		'message': 'API not found'
+	});
 }
 
 function errorHandler(err, req, res, next) {
@@ -99,7 +103,10 @@ function errorHandler(err, req, res, next) {
 	if (res.headersSent) {
 		return next(err);
 	}
-	res.status(500).sendFile(webdir + '/pages/error/500.html');
+	res.status(500).json({
+		'code': 500,
+		'message': 'Internal server error'
+	});
 }
 
 function getInfos(req, res, err) {
@@ -126,21 +133,12 @@ function getInfos(req, res, err) {
 
 function initRoutes(app) {
 	app.get('/', function(req, res) {
-		res.sendFile(webdir + '/pages/index.html');
+		res.sendFile(path.resolve(__dirname + '/index.html'));
 	});
 
-	app.get('/login', function(req, res) {
-		res.sendFile(webdir + '/pages/login/login.html');
-	});
-
-	app.get('/api/test', function(req, res) {
-		res.json({
-			'posts': ['test titre', 'titre 2']
-		});
-	});
-
-	app.get('/db/select', (req, res, next) => {
-		db.select('SELECT * FROM users LIMIT 1000', (err, objs) => {
+	// Get all coffees
+	app.get('/coffee', function(req, res) {
+		db.select('SELECT * FROM coffees', (err, objs) => {
 			if (err) {
 				next(err);
 				return;
@@ -149,8 +147,9 @@ function initRoutes(app) {
 		});
 	});
 
-	app.get('/db/select/:username', (req, res, next) => {
-		db.select('SELECT * FROM users WHERE username = ?', req.params.username, (err, objs) => {
+	// Get a coffee by ID
+	app.get('/coffee/:id', function(req, res) {
+		db.select('SELECT * FROM coffees WHERE id = ?', req.params.id, (err, objs) => {
 			if (err) {
 				next(err);
 				return;
@@ -159,9 +158,10 @@ function initRoutes(app) {
 		});
 	});
 
-	app.get('/db/insert', (req, res, next) => {
-		db.query('INSERT users(username, password) values(?, ?)', [
-			'test', 'test'
+	// Add a coffee
+	app.post('/coffee', (req, res, next) => {
+		db.query('INSERT coffees(name, type, origin, shop, comments, rating) values(?, ?, ?, ?, ?, ?)', [
+			req.params.name, req.params.type, req.params.origin, req.params.shop, req.params.comments, req.params.rating
 		], (err, objs) => {
 			if (err) {
 				next(err);
@@ -171,11 +171,27 @@ function initRoutes(app) {
 		});
 	});
 
-	app.get('/500', function() {
-		throw new Error('test');
+	// Update a coffee
+	app.put('/coffee/:id', (req, res, next) => {
+		db.query('UPDATE users SET name = ?, type = ?, origin = ?, shop = ?, comments = ?, rating = ? WHERE id = ? ', [
+			req.params.name, req.params.type, req.params.origin, req.params.shop, req.params.comments, req.params.rating, req.params.id
+		], (err, objs) => {
+			if (err) {
+				next(err);
+				return;
+			}
+			res.json(objs);
+		});
 	});
 
-	app.get('/julien', function(req, res) {
-			res.sendFile(webdir + '/pages/julien/Julien-Daviaud-Demaille.html');
+	// Delete a coffee
+	app.delete('/coffee/:id', (req, res, next) => {
+		db.query('DELETE FROM coffees WHERE id = ?', req.params.id, (err, objs) => {
+			if (err) {
+				next(err);
+				return;
+			}
+			res.json(objs);
+		});
 	});
 }

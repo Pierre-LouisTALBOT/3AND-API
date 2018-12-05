@@ -1,59 +1,45 @@
 {
-  "name": "Supinfo-Badge",
-  "version": "0.0.1",
-  "description": "Create a badge system for Supinfo",
-  "main": "server.js",
-  "scripts": {
-    "update": "./node_modules/npm-check-updates/bin/ncu -u",
-    "lint-js": "./node_modules/.bin/eslint server.js config/logger.js config/routes.js config/database.js",
-    "lint-jsx": "./node_modules/.bin/eslint server.js www/components/LikeButton.jsx www/components/LoginForm.jsx www/components/Test.jsx",
-    "lint-fix": "npm run lint-js -- --fix && npm run lint-jsx -- --fix",
-    "vuln-test": "echo \"No vuln test specified: exiting with exit code 0\" && exit 0",
-    "test": "echo \"No test specified: exiting with exit code 0\" && exit 0",
-    "webpack": "./node_modules/webpack/bin/webpack.js",
-    "start": "npm run webpack && node server.js",
-    "nodemon": "./node_modules/nodemon/bin/nodemon.js server.js -- --ext js,jsx",
-    "before-git": "npm run update && npm run test && npm run lint-js && npm run lint-jsx && npm run vuln-test && npm run webpack"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://gitlab.com/Pierre-LouisTALBOT/Supinfo_Badging.git"
-  },
-  "author": "Pierre-LouisTALBOT <pierrelouistalbot@gmail.com>",
-  "license": "Apache-2.0",
-  "dependencies": {
-    "body-parser": "^1.18.3",
-    "compression": "^1.7.3",
-    "express": "^4.14.0",
-    "express-minify": "^1.0.0",
-    "express-session": "^1.15.6",
-    "mysql": "^2.15.0",
-    "react": "^16.4.1",
-    "react-dom": "^16.4.1",
-    "uglify-es": "^3.3.9",
-    "uuid": "^3.3.2",
-    "winston": "^3.0.0",
-    "webpack": "^4.16.2",
-    "babel-core": "^6.26.3",
-    "babel-loader": "^7.1.5",
-    "babel-preset-latest-node": "^1.0.0",
-    "babel-preset-react": "^6.24.1",
-    "webpack-command": "^0.4.1"
-  },
-  "devDependencies": {
-    "eslint": "^5.2.0",
-    "eslint-plugin-react": "^7.10.0",
-    "nodemon": "^1.18.1",
-    "npm-check-updates": "^2.14.2"
-  },
-  "nodemonConfig": {
-    "verbose": false,
-    "ignore": [
-      "nodejs-log.json",
-      "*-bundle.js"
-    ],
-    "events": {
-      "start": "npm run webpack"
+    "name": "3AND-Api",
+    "version": "0.0.1",
+    "description": "This is an API for Supinfo Bsc Android Courses",
+    "main": "server.js",
+    "scripts": {
+        "update": "./node_modules/npm-check-updates/bin/ncu -u",
+        "lint-js": "./node_modules/.bin/eslint server.js config/logger.js config/routes.js config/database.js",
+        "lint-jsx": "./node_modules/.bin/eslint server.js www/components/LikeButton.jsx www/components/LoginForm.jsx www/components/Test.jsx",
+        "lint-fix": "npm run lint-js -- --fix && npm run lint-jsx -- --fix",
+        "vuln-test": "echo \"No vuln test specified: exiting with exit code 0\" && exit 0",
+        "test": "echo \"No test specified: exiting with exit code 0\" && exit 0",
+        "start": "node server.js",
+        "nodemon": "./node_modules/nodemon/bin/nodemon.js server.js",
+        "before-git": "npm run update && npm run test && npm run lint-js && npm run lint-jsx && npm run vuln-test"
+    },
+    "author": {
+        "name": "Pierre-Louis TALBOT"
+    },
+    "license": "Apache-2.0",
+    "dependencies": {
+        "body-parser": "^1.18.3",
+        "compression": "^1.7.3",
+        "express": "^4.14.0",
+        "express-minify": "^1.0.0",
+        "express-session": "^1.15.6",
+        "mysql": "^2.15.0",
+        "uglify-es": "^3.3.9",
+        "uuid": "^3.3.2",
+        "winston": "^3.0.0"
+    },
+    "devDependencies": {
+        "eslint": "^5.2.0",
+        "eslint-plugin-react": "^7.10.0",
+        "nodemon": "^1.18.1",
+        "npm-check-updates": "^2.14.2"
+    },
+    "nodemonConfig": {
+        "verbose": false,
+        "ignore": [
+            "nodejs-log.json",
+            "*.html"
+        ]
     }
-  }
 }

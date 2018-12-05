@@ -3,7 +3,13 @@
  */
 var mysql = require('mysql');
 var logger = require('./logger.js');
-const pool = mysql.createPool({connectionLimit: 10, host: 'localhost', user: 'root', password: 'Supinf0!', database: 'test'});
+const pool = mysql.createPool({
+	connectionLimit: 10,
+	host: 'localhost',
+	user: 'root',
+	password: 'azertyuiop',
+	database: '3and_api'
+});
 
 function select(sql, args, callback) {
 	if (!callback) {
@@ -57,6 +63,8 @@ function queryDatabase(sql, args, callback) {
 }
 
 function handleError(sql, err, callback) {
-	logger.log('error', 'Error in MySQL', {'sql': sql});
+	logger.log('error', 'Error in MySQL', {
+		'sql': sql
+	});
 	callback(err, null);
 }
