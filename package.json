@@ -24,10 +24,11 @@
         "express": "^4.14.0",
         "express-minify": "^1.0.0",
         "express-session": "^1.15.6",
-        "mysql": "^2.15.0",
         "uglify-es": "^3.3.9",
         "uuid": "^3.3.2",
-        "winston": "^3.0.0"
+        "winston": "^3.0.0",
+        "chalk": "^2.4.1",
+        "lowdb": "^1.0.0"
     },
     "devDependencies": {
         "eslint": "^5.2.0",
@@ -39,6 +40,7 @@
         "verbose": false,
         "ignore": [
             "nodejs-log.json",
+            "db.json",
             "*.html"
         ]
     }
