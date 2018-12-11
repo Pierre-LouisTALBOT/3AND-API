@@ -15,7 +15,9 @@ let idAutoincrement = 0;
 
 
 exports.getAll = function () {
-    return db.get(TABLE_NAME).value();
+    return {
+        "array": db.get(TABLE_NAME).value()
+    };
 }
 
 exports.get = function (id) {
@@ -26,15 +28,17 @@ exports.get = function (id) {
 }
 
 exports.add = function (name, type, country, comments, rating) {
-    return db.get(TABLE_NAME).push({
-            id: idAutoincrement++,
-            name: name,
-            type: type,
-            country: country,
-            comments: comments,
-            rating: rating
-        })
-        .write();
+    return {
+        "array": db.get(TABLE_NAME).push({
+                id: idAutoincrement++,
+                name: name,
+                type: type,
+                country: country,
+                comments: comments,
+                rating: rating
+            })
+            .write()
+    };
 }
 
 exports.update = function (id, name, type, country, comments, rating) {
