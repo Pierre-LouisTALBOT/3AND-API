@@ -157,6 +157,9 @@ function initRoutes(app) {
 
     // Add a coffee
     app.post('/coffee', (req, res) => {
+        logger.log('info', {
+            "params": req.params
+        })
         res.json(co.add(req.params.name, req.params.type, req.params.country, req.params.comments, req.params.rating));
     });
 
