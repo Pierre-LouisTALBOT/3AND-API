@@ -13,7 +13,6 @@ const bodyparser = require('body-parser');
 const minify = require('express-minify');
 const uglifyEs = require('uglify-es');
 const compression = require('compression');
-const fs = require('fs');
 
 const logger = require('./logger.js');
 const db = require('./database.js');
@@ -27,9 +26,7 @@ exports.init = function (express, app) {
         resave: true,
         saveUninitialized: false
     }));
-    app.use(bodyparser.urlencoded({
-        extended: false
-    }));
+    app.use(express.json());
     app.use(logRequest);
     app.use(compression({
         threshold: '50kb' // only compress if size is above this threshold
@@ -157,15 +154,12 @@ function initRoutes(app) {
 
     // Add a coffee
     app.post('/coffee', (req, res) => {
-        logger.log('info', {
-            "params": req.params
-        })
-        res.json(co.add(req.params.name, req.params.type, req.params.country, req.params.comments, req.params.rating));
+        res.json(co.add(req.body.name, req.body.type, req.body.country, req.body.comments, req.body.rating));
     });
 
     // Update a coffee
     app.put('/coffee/:id', (req, res) => {
-        res.json(co.update(req.params.id, req.params.name, req.params.type, req.params.country, req.params.comments, req.params.rating));
+        res.json(co.update(req.body.id, req.body.name, req.body.type, req.body.country, req.body.comments, req.body.rating));
     });
 
     // Delete a coffee
